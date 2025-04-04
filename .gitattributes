@@ -1,0 +1,6 @@
+*.sol linguist-language=Solidity
+*.rs linguist-language=Rust
+*.js linguist-detectable=false
+*.css linguist-detectable=false
+*.html linguist-detectable=false
+*.ts linguist-detectable=false 
