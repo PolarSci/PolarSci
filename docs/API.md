@@ -12,12 +12,30 @@ All API requests require authentication using JWT tokens. Include the token in t
 Authorization: Bearer <your_jwt_token>
 ```
 
+## Base URL
+
+```
+https://api.polar-sci.org/v1
+```
+
+## Rate Limiting
+
+- 100 requests per minute per IP
+- 1000 requests per hour per user
+
 ## Endpoints
 
 ### Experiments
 
 #### GET /experiments
 Retrieve all experiments.
+
+**Query Parameters:**
+- `page`: Page number (default: 1)
+- `limit`: Items per page (default: 10)
+- `status`: Filter by status
+- `sort`: Sort field (createdAt, updatedAt)
+- `order`: Sort order (asc, desc)
 
 **Response:**
 ```json
@@ -31,7 +49,13 @@ Retrieve all experiments.
       "createdAt": "timestamp",
       "updatedAt": "timestamp"
     }
-  ]
+  ],
+  "pagination": {
+    "total": "number",
+    "page": "number",
+    "limit": "number",
+    "pages": "number"
+  }
 }
 ```
 
@@ -45,6 +69,11 @@ Create a new experiment.
   "description": "string",
   "parameters": {
     "key": "value"
+  },
+  "metadata": {
+    "location": "string",
+    "environment": "string",
+    "equipment": "string[]"
   }
 }
 ```
@@ -60,6 +89,7 @@ Retrieve a specific experiment.
   "description": "string",
   "status": "string",
   "dataPoints": [],
+  "metadata": {},
   "createdAt": "timestamp",
   "updatedAt": "timestamp"
 }
@@ -76,13 +106,22 @@ Add a new data point to an experiment.
   "value": "number",
   "timestamp": "timestamp",
   "metadata": {
-    "key": "value"
+    "location": "string",
+    "temperature": "number",
+    "humidity": "number",
+    "pressure": "number"
   }
 }
 ```
 
 #### GET /experiments/:id/data-points
 Retrieve all data points for an experiment.
+
+**Query Parameters:**
+- `startDate`: Start date filter
+- `endDate`: End date filter
+- `limit`: Maximum number of points
+- `aggregate`: Aggregation function (avg, min, max)
 
 **Response:**
 ```json
@@ -94,62 +133,61 @@ Retrieve all data points for an experiment.
       "timestamp": "timestamp",
       "metadata": {}
     }
-  ]
+  ],
+  "aggregation": {
+    "avg": "number",
+    "min": "number",
+    "max": "number"
+  }
 }
 ```
 
-### User Management
+### Users
 
-#### POST /auth/register
-Register a new user.
-
-**Request Body:**
-```json
-{
-  "email": "string",
-  "password": "string",
-  "name": "string"
-}
-```
-
-#### POST /auth/login
-Login user.
-
-**Request Body:**
-```json
-{
-  "email": "string",
-  "password": "string"
-}
-```
-
-### Token Management
-
-#### GET /tokens/balance
-Get user's token balance.
+#### GET /users/profile
+Get current user profile.
 
 **Response:**
 ```json
 {
-  "balance": "number",
-  "currency": "PSCI"
+  "id": "string",
+  "username": "string",
+  "email": "string",
+  "role": "string",
+  "createdAt": "timestamp"
 }
 ```
 
-#### POST /tokens/transfer
-Transfer tokens to another user.
+#### PUT /users/profile
+Update user profile.
 
 **Request Body:**
 ```json
 {
-  "recipient": "string",
-  "amount": "number"
+  "username": "string",
+  "email": "string"
+}
+```
+
+### Analytics
+
+#### GET /analytics/experiments
+Get experiment analytics.
+
+**Response:**
+```json
+{
+  "totalExperiments": "number",
+  "activeExperiments": "number",
+  "completedExperiments": "number",
+  "dataPointsCollected": "number",
+  "averageDataPoints": "number"
 }
 ```
 
 ## Error Responses
 
-All endpoints may return the following error responses:
+All error responses follow this format:
 
 ```json
 {
@@ -166,14 +204,5 @@ Common error codes:
 - 401: Unauthorized
 - 403: Forbidden
 - 404: Not Found
-- 500: Internal Server Error
-
-## Rate Limiting
-
-API requests are limited to 100 requests per minute per user. The following headers are included in responses:
-
-```
-X-RateLimit-Limit: 100
-X-RateLimit-Remaining: 99
-X-RateLimit-Reset: 1234567890
-``` 
+- 429: Too Many Requests
+- 500: Internal Server Error 
