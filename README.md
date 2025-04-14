@@ -22,7 +22,7 @@
   <h3>From Ice to Stars, Science Without Boundaries</h3>
 </div>
 
-PolarSci is the world's first DeSci platform that connects Earth's polar regions with space science research through blockchain technology, focusing on decentralized data collection, AI enhancement, and community-driven research.
+🚀 PolarSci is a DeSci platform connecting Earth's polar regions with space science research through blockchain🚀 From ice🧊and snow❄️ to star🌟 Science has no boundaries!
 
 **Slogan:** "From Ice to Stars, Science Without Boundaries"
 
@@ -203,7 +203,7 @@ This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LI
 
 * Website: [polar-sci.xyz](https://www.polar-sci.xyz/)
 * Twitter: [@Polar_Sci](https://x.com/Polar_Sci)
-* GitHub: [Polar-Sci](https://github.com/Polar-Sci)
+* GitHub: [Polar-Sci](https://github.com/PolarSci)
 
 ## Acknowledgments
 
