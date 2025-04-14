@@ -1,7 +1,7 @@
 # PolarSci
 
 <p align="center">
-  <a href="https://ibb.co/RTJN3Qcs">
+  <href="https://ibb.co/RTJN3Qcs">
     <img width="200" src="https://i.ibb.co/R4pQ6dVR/logo-polarsci.png" alt="PolarSci Logo">
   </a>
 </p>
